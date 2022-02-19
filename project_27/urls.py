@@ -22,4 +22,6 @@ urlpatterns = [
     path('', views.index),
     path('cat/', views.CategoryListView.as_view()),
     path('cat/<int:pk>', views.CategoryDetailView.as_view()),
+    path('ad/', views.AdvListView.as_view()),
+    path('ad/<int:pk>', views.AdvDetailView.as_view()),
 ]
