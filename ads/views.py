@@ -17,7 +17,20 @@ def index(request):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class CategoryView(View):
+class CategoryListView(ListView):
+    model = Category
+
+    def get(self, request, *args, **kwargs):
+        super().get(request, *args, **kwargs)
+        categories = self.object_list
+        response = []
+        for category in categories:
+            response.append({
+                "id": category.id,
+                "name": category.name
+            })
+
+        return JsonResponse(response, safe=False)
 
     def post(self, request):
         json_data = json.loads(request.body)
@@ -35,22 +48,6 @@ class CategoryView(View):
             "id": category.id,
             "name": category.name,
         })
-
-
-class CategoryListView(ListView):
-    model = Category
-
-    def get(self, request, *args, **kwargs):
-        super().get(request, *args, **kwargs)
-        categories = self.object_list
-        response = []
-        for category in categories:
-            response.append({
-                "id": category.id,
-                "name": category.name
-            })
-
-        return JsonResponse(response, safe=False)
 
 
 class CategoryDetailView(DetailView):
